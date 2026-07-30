@@ -6,67 +6,98 @@ A curated collection of high-quality agent skills focused on process automation,
 
 ---
 
-## What are Agent Skills?
-
-Skills are modular instruction packages that extend an AI agent’s capabilities. Each skill contains:
-
-- A clear description (triggers when the skill should activate)
-- Precise instructions the agent loads on demand
-- Optional scripts, references, and assets
-
-They follow the [agentskills.io](https://agentskills.io) specification and work across compatible agents.
-
----
-
-## Repository Structure
+## Architecture
 
 ```text
 skills/
-├── skill-name/
-│   ├── SKILL.md          # Required — frontmatter + instructions
-│   ├── scripts/          # Optional — executable helpers
-│   ├── references/       # Optional — docs loaded on demand
-│   └── assets/           # Optional — templates, images, etc.
-└── ...
+├── automation/          # Workflows, process automation, RPA-style tasks
+├── productivity/        # Personal & team productivity
+├── data-analysis/       # Data cleaning, analysis, reporting
+├── content/             # Writing, editing, content creation
+├── development/         # Coding helpers, code review, scaffolding
+└── integrations/        # Tool & service integrations (n8n, APIs, etc.)
+
+templates/
+└── skill-template/      # Starter template for new skills
 ```
+
+Each skill lives in its own folder and must contain a `SKILL.md` file:
+
+```text
+skills/<category>/<skill-name>/
+├── SKILL.md             # Required — frontmatter + instructions
+├── scripts/             # Optional — executable helpers
+├── references/          # Optional — docs loaded on demand
+└── assets/              # Optional — templates, images, etc.
+```
+
+This structure is:
+- **Easy to navigate** — categories group related skills
+- **Scalable** — just add a new folder under the right category
+- **Evolutive** — new categories can be added at any time
 
 ---
 
-## Skills
+## Categories
 
-| Skill | Description |
-|-------|-------------|
-| *Coming soon* | Skills will be listed here as they are added. |
+| Category | Purpose |
+|----------|---------|
+| `automation` | Process automation, workflows, scheduled tasks |
+| `productivity` | Daily productivity, note-taking, planning |
+| `data-analysis` | Data processing, analysis, visualization, reports |
+| `content` | Writing, rewriting, content strategy |
+| `development` | Coding assistance, scaffolding, reviews |
+| `integrations` | Connecting external tools & APIs |
+
+---
+
+## Skills Index
+
+| Skill | Category | Description |
+|-------|----------|-------------|
+| *None yet* | — | Skills will appear here as they are added. |
+
+---
+
+## How to Add a New Skill
+
+1. Choose (or create) the right category under `skills/`.
+2. Copy the template:
+   ```bash
+   cp -r templates/skill-template skills/<category>/<your-skill-name>
+   ```
+3. Edit `SKILL.md`:
+   - Set `name` (must match the folder name, kebab-case)
+   - Write a precise `description` (this is what the agent sees first)
+   - Fill the instructions body
+4. Update the **Skills Index** table in this README.
+5. Commit and push.
+
+### Skill Format (quick reference)
+
+```yaml
+---
+name: my-skill
+description: What it does and when to use it. Include trigger words.
+---
+
+# Instructions go here (imperative style)
+```
+
+Guidelines:
+- `name` must equal the folder name
+- Keep the description under ~1024 characters and make it trigger-rich
+- Prefer progressive disclosure — put long reference material in `references/`
 
 ---
 
 ## Usage
 
-1. Clone or download the skill folder you need.
-2. Place it in your agent’s skills directory (e.g. `.claude/skills/`, `.cursor/skills/`, or the equivalent for your agent).
-3. The agent will automatically discover the skill via its `description` and load the full instructions when relevant.
-
----
-
-## Creating a New Skill
-
-Follow the standard skill format:
-
-```yaml
----
-name: my-skill
-description: What this skill does and when to use it. Include trigger words and scenarios.
----
-
-# Instructions
-
-Write clear, imperative instructions. Keep them concise and focused on knowledge the model does not already have.
-```
-
-Guidelines:
-- `name` must match the folder name (kebab-case)
-- Description is the only thing visible before the skill is loaded — make it count
-- Prefer progressive disclosure: keep `SKILL.md` lean and move long content to `references/`
+1. Clone this repository or download the skill folders you need.
+2. Place them in your agent’s skills directory (examples):
+   - Claude / Cursor style: `.claude/skills/` or project-level skills folder
+   - Other agents: follow their skill discovery path
+3. The agent discovers skills via the `description` field and loads full instructions on demand.
 
 ---
 
